@@ -1,0 +1,24 @@
+{
+  "name": "launcheredr",
+  "version": "1.0.0",
+  "description": "Launcher da EliteDaRodagem",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "node build.js --build",
+    "icon": "node build.js --icon=https://elitedarodagem.online/uploads/monthly_2023_10/Logoelitedarodagemazul.png.add32c64982bc0e9d6d2789ebc370c16.png"
+  },
+  "author": "RenildoMarcio",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^27.0.2",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "discord-rich-presence": "^0.0.8",
+    "electron-log": "^4.4.8",
+    "electron-updater": "^6.1.4",
+    "jimp": "^0.22.10",
+    "png2icons": "^2.0.1"
+  }
+}
