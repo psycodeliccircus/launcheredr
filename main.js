@@ -27,16 +27,12 @@ function createWindow () {
 
   loadWebContent()
 
-  app.on('web-contents-created', (event, contents) => {
-    contents.on('will-navigate', (event, navigationUrl) => {
-        // Verifica se o link está indo para um local externo
-        if (contents.getURL() !== navigationUrl) {
-            // Abre o link externo no navegador padrão do sistema
-            //event.preventDefault();
-            shell.openExternal(navigationUrl);
-        }
-    });
-});
+  mainWindow.webContents.on('will-navigate', (event, url) => {
+    if (!url.startsWith('https://launcher.elitedarodagem.online')) {
+      event.preventDefault();
+      shell.openExternal(url);
+    }
+  });
 
   const trayIcon = nativeImage.createFromPath(path.join(__dirname, 'public/logo_tray.png'));
   tray = new Tray(trayIcon);

@@ -1,6 +1,6 @@
 {
   "name": "launcheredr",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Launcher da EliteDaRodagem",
   "main": "main.js",
   "scripts": {
