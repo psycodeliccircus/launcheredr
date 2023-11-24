@@ -1,4 +1,4 @@
-const {app, BrowserWindow, nativeTheme, ipcMain, Menu, Tray, nativeImage, dialog} = require('electron')
+const {app, BrowserWindow, nativeTheme, ipcMain, Menu, Tray, nativeImage, dialog, shell} = require('electron')
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 const path = require('path')
@@ -26,6 +26,17 @@ function createWindow () {
   //mainWindow.maximize();
 
   loadWebContent()
+
+  app.on('web-contents-created', (event, contents) => {
+    contents.on('will-navigate', (event, navigationUrl) => {
+        // Verifica se o link está indo para um local externo
+        if (contents.getURL() !== navigationUrl) {
+            // Abre o link externo no navegador padrão do sistema
+            //event.preventDefault();
+            shell.openExternal(navigationUrl);
+        }
+    });
+});
 
   const trayIcon = nativeImage.createFromPath(path.join(__dirname, 'public/logo_tray.png'));
   tray = new Tray(trayIcon);
@@ -96,12 +107,6 @@ function createWindow () {
     app.isQuitting = true;
   });
 
-  app.on('web-contents-created', (event, contents) => {
-    contents.on('new-window', (event, navigationUrl) => {
-      event.preventDefault();
-      require('electron').shell.openExternal(navigationUrl);
-    });
-  });
 }
 
 function loadWebContent() {
