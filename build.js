@@ -40,8 +40,7 @@ class Index {
                     packElevateHelper: true,
                     createDesktopShortcut: true,
                     shortcutName: "Launcher EDR",
-                    license: "./eula.txt",
-                    requestedExecutionLevel: "highestAvailable"
+                    license: "./eula.txt"
                 },
                 mac: {
                     icon: "./build/icon.icns",
