@@ -5,6 +5,9 @@ const path = require('path');
 const MainMenuapp = require('./menu-config')
 const appConfig = require('./config');
 
+// Adicione esta linha para importar o módulo protocol
+const protocol = require('electron').protocol;
+
 let mainWindow;
 let tray = null;
 
@@ -17,12 +20,18 @@ function createWindow() {
     height: appConfig.height,
     minWidth: appConfig.minWidth,
     minHeight: appConfig.minHeight,
-    icon: createTrayIcon('favicon.ico'),
+    icon: "build/icon.ico",
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       contextIsolation: true,
     },
+  });
+
+  // Registrar protocolo personalizado 'edr'
+  protocol.registerHttpProtocol('edr', (request, callback) => {
+    const url = request.url.substr(6); // Remover 'edr://'
+    handleCustomProtocol(url);
   });
 
   Menu.setApplicationMenu(mainMenu)
@@ -90,6 +99,15 @@ ipcMain.on('online-status-changed', (event, status) => {
   }
 });
 
+function handleCustomProtocol(url) {
+  if (url === 'home') {
+    loadWebContent();
+  } else {
+    mainWindow.loadFile(path.join(__dirname, `public/${url}.html`));
+  }
+  // Adicione mais casos conforme necessário
+}
+
 module.exports = (pageId) => {
   if (pageId === 'home') {
     loadWebContent();
@@ -113,7 +131,42 @@ function createTrayIcon(iconName) {
 }
 
 function setActivity() {
-  // Implemente conforme necessário
+
+  const client = require('discord-rich-presence')('1165771580832501912')
+  client.on("error", _ => true);
+
+  // discordClient
+  client.on('connected', () => {
+      startTimestamp = new Date();
+      client.updatePresence({
+          state: "Elite da Rodagem",
+          details: "Server ETS2/ATS",
+          startTimestamp,
+          largeImageKey: "logo",
+          instance: true,
+          buttons: [
+              { "label": "Discord Oficial", "url": "https://elitedarodagem.online/discord/invite/WebSite/" },
+              { "label": "Forum", "url": "https://elitedarodagem.online/" }
+          ]
+      });
+
+      setInterval(() => { 
+          client.updatePresence({
+              state: "Elite da Rodagem",
+              details: "Server ETS2/ATS",
+              startTimestamp,
+              largeImageKey: 'logo',
+              largeImageText: "Community",
+              smallImageKey: 'online',
+              smallImageText: "Você esta online!",
+              instance: true,
+              buttons: [
+                { "label": "Discord Oficial", "url": "https://elitedarodagem.online/discord/invite/WebSite/" },
+                { "label": "Forum", "url": "https://elitedarodagem.online/" }
+              ]
+          });
+      }, 35500);
+  });
 }
 
 // Funções de tratamento de atualizações
@@ -189,3 +242,4 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
