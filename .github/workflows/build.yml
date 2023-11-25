@@ -13,6 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
       - name: Get version
         run: echo "version=$(jq -r .version package.json)" >> $GITHUB_ENV
 
@@ -42,7 +47,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 16
 
       - name: Set up Python
         uses: actions/setup-python@v4
