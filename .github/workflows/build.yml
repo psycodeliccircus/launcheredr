@@ -54,13 +54,3 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npm run build
         shell: bash
-
-      - name: Upload Portable Release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: dist/*-portable-*
-          asset_name: ${{ env.version }}-portable-${{ matrix.os }}.zip
-          asset_content_type: application/zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

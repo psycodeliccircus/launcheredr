@@ -59,9 +59,6 @@ class Index {
                         target: "tar.gz",
                         arch: ["x64"]
                     }]
-                },
-                portable: {
-                    artifactName: "${productName}-portable-${os}-${arch}.${ext}",
                 }
             }
         }).then(() => {
