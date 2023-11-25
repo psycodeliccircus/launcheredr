@@ -13,7 +13,7 @@ class Index {
                 appId: preductname,
                 productName: preductname,
                 icon: "./build/icon.ico",
-                copyright: "Copyright © 2015-2023 Launcher EDR - Dev by RenildoMarcio",
+                copyright: "Copyright © 2015-2023 Community - Dev by RenildoMarcio",
                 artifactName: "${productName}-${os}-${arch}.${ext}",
                 files: ["**/*", "package.json", "LICENSE.md"],
                 directories: { "output": "dist" },
@@ -40,7 +40,8 @@ class Index {
                     packElevateHelper: true,
                     createDesktopShortcut: true,
                     shortcutName: "Launcher EDR",
-                    license: "./eula.txt"
+                    license: "./eula.txt",
+                    requestedExecutionLevel: "highestAvailable"
                 },
                 mac: {
                     icon: "./build/icon.icns",

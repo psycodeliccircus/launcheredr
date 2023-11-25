@@ -1,6 +1,6 @@
 {
   "name": "launcheredr",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Launcher da EliteDaRodagem",
   "main": "main.js",
   "scripts": {
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "discord-rich-presence": "^0.0.8",
+    "electron-is-dev": "^2.0.0",
     "electron-log": "^4.4.8",
     "electron-updater": "^6.1.4",
     "jimp": "^0.22.10",

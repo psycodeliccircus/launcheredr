@@ -3,10 +3,12 @@ const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 const path = require('path');
 const MainMenuapp = require('./menu-config')
+const isUserDeveloper = require('electron-is-dev');
 const appConfig = require('./config');
 
-// Adicione esta linha para importar o módulo protocol
-const protocol = require('electron').protocol;
+const isDefault = app.isDefaultProtocolClient('edr');
+console.log(isDefault);
+log.info(isDefault);
 
 let mainWindow;
 let tray = null;
@@ -15,6 +17,13 @@ let tray = null;
 let mainMenu = Menu.buildFromTemplate(MainMenuapp)
 
 function createWindow() {
+  if (isUserDeveloper) {
+    console.info('App is running in development')
+    log.info('App is running in development')
+  } else {
+    console.info('App is running in production')
+    log.info('App is running in production')
+  }
   mainWindow = new BrowserWindow({
     width: appConfig.width,
     height: appConfig.height,
@@ -26,12 +35,6 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: true,
     },
-  });
-
-  // Registrar protocolo personalizado 'edr'
-  protocol.registerHttpProtocol('edr', (request, callback) => {
-    const url = request.url.substr(6); // Remover 'edr://'
-    handleCustomProtocol(url);
   });
 
   Menu.setApplicationMenu(mainMenu)
@@ -98,15 +101,6 @@ ipcMain.on('online-status-changed', (event, status) => {
     loadWebContent();
   }
 });
-
-function handleCustomProtocol(url) {
-  if (url === 'home') {
-    loadWebContent();
-  } else {
-    mainWindow.loadFile(path.join(__dirname, `public/${url}.html`));
-  }
-  // Adicione mais casos conforme necessário
-}
 
 module.exports = (pageId) => {
   if (pageId === 'home') {
