@@ -1,26 +1,17 @@
 name: Launcher Build
 
-on:
-  push:
-    branches:
-      - main
+on:  push
 
 jobs:
   create-release:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
       - name: Get version
         run: echo "version=$(jq -r .version package.json)" >> $GITHUB_ENV
-
+      
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -47,7 +38,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18.x
 
       - name: Set up Python
         uses: actions/setup-python@v4
